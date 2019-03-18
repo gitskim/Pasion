@@ -2,7 +2,7 @@ import os
 import subprocess
 
 # TODO: where the video is coming from
-source_roots = "/home/suhyunkim/videos"
+source_roots = "/home/suhyunkim/videos/diving"
 
 # TODO: where the extracted keyframes should be saved. DON'T FORGET TO END THE NAME WITH / TO INDICATE THE DIRECOTRY
 dest_root = '/home/suhyunkim/keyframes'
