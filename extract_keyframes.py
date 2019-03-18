@@ -2,10 +2,10 @@ import os
 import subprocess
 
 # TODO: where the video is coming from
-source_roots = "/Users/suhyunkim/Downloads/action_quality_dataset/figure_skating/videos/"
+source_roots = "/home/suhyunkim/videos"
 
 # TODO: where the extracted keyframes should be saved. DON'T FORGET TO END THE NAME WITH / TO INDICATE THE DIRECOTRY
-dest_root = '/Users/suhyunkim/Downloads/action_quality_dataset/figure_skating/videos/two/'
+dest_root = '/home/suhyunkim/keyframes'
 
 # TODO: the type of video to be saved
 file_type = '.mp4'
