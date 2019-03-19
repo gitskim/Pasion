@@ -1,5 +1,6 @@
 import subprocess
 import numpy as np
+import os.path
 
 # TODO: end it with the slash
 PICTURE_SOURCE_DIR = '/Users/suhyunkim/Downloads/action_quality_dataset/keyframes/'
@@ -9,7 +10,7 @@ PICTURE_SOURCE_DIR = '/Users/suhyunkim/Downloads/action_quality_dataset/keyframe
 ANNOTATION_FILE = '/Users/suhyunkim/git/Pasion/test_file.txt'
 
 # TODO: it's the dir where all the pictures will be moved to. END IT WITH THE SLASH
-KEYFRAME_DIR = '/Users/suhyunkim/Downloads/action_quality_dataset/keykey/'
+KEYFRAME_DIR = '/Users/suhyunkim/Downloads/action_quality_dataset/test_skating/'
 
 is_diving = True
 
@@ -30,12 +31,14 @@ def run_command(command, logfile=None, print_output=True, return_output=True):
 
 
 # move the pictures to a certain directory and create labels
+arr_picture = np.array([])
 arr_total_score = np.array([])
 arr_difficulty_score = np.array([])
 
 
 with open(ANNOTATION_FILE) as filename:
     counter = 0
+    supposed_to_be_counter = 0
     for line in filename:
         print(line)
         if '#' in line:
@@ -60,8 +63,14 @@ with open(ANNOTATION_FILE) as filename:
             for i in range(start, end + 1):
                 str_num = "{:0>7d}".format(i)
                 pic_name = "frame" + str_num + ".png"
-                counter += 1
+                supposed_to_be_counter += 1
+                if os.path.exists(f"{KEYFRAME_DIR}/{pic_name}"):
+                    counter += 1
+                    arr_picture = np.append(arr_picture, f"{KEYFRAME_DIR}/{pic_name}")
+
                 # print(pic_name)
+
+                # choose the right pictures
                 #run_command(f"mv {PICTURE_SOURCE_DIR}{pic_name} {KEYFRAME_DIR}")
 
         if 'Score' in line and is_diving:
@@ -75,10 +84,11 @@ with open(ANNOTATION_FILE) as filename:
             arr_total_score = np.append(arr_total_score, arr_sub_total_score)
             arr_difficulty_score = np.append(arr_difficulty_score, arr_sub_difficulty_score)
 
-            print(arr_sub_total_score)
+            # print(arr_sub_total_score)
 
-print(arr_total_score)
-print(arr_difficulty_score)
+
+# print(arr_total_score)
+# print(arr_difficulty_score)
 
 
 def get_total_score_labels():
@@ -87,3 +97,10 @@ def get_total_score_labels():
 
 def get_difficulty_score_labels():
     return arr_difficulty_score
+
+
+def get_x_and_y():
+    return arr_picture, arr_total_score
+
+def test():
+    return supposed_to_be_counter, counter
