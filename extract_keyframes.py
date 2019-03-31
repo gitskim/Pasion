@@ -2,17 +2,17 @@ import os
 import subprocess
 
 # TODO: where the video is coming from
-source_roots = "/home/suhyunkim/videos/diving"
+source_roots = "/Users/suhyunkim/Downloads/action_quality_dataset/figure_skating/videos"
 
-# TODO: where the extracted keyframes should be saved. DON'T FORGET TO END THE NAME WITH / TO INDICATE THE DIRECOTRY
-dest_root = '/home/suhyunkim/keyframes'
+# TODO: where the extracted keyframes should be saved. DON'T FORGET TO END THE NAME WITH
+dest_root = '/Users/suhyunkim/Downloads/action_quality_dataset/figure-keyframes'
 
 # TODO: the type of video to be saved
 file_type = '.mp4'
 
 def run_command(command, logfile=None, print_output=True, return_output=True):
-    if logfile != None:
-        command += ' |& tee ' + logfile
+    # if logfile != None:
+    #     command += ' |& tee ' + logfile
     output = subprocess.Popen(
         command,
         shell=True,
@@ -73,3 +73,4 @@ with open(os.path.join(dest_root, 'unsuc.txt'), 'w') as fout:
         fout.write('\n')
 
 
+# ffmpeg -i ICE_SKATING_EUROPEAN_SHORT_MEN_2008_PART_3-cVe-zXZFOww.mp4 -r 25 -vsync vfr /Users/suhyunkim/Downloads/action_quality_dataset/test_skating/frame%07d.png
