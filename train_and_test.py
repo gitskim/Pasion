@@ -49,7 +49,7 @@ EPOCHS = 5
 train_image_generator = ImageDataGenerator(rescale=1. / 255)
 val_image_generator = ImageDataGenerator(rescale=1. / 255)
 
-train_data_gen = train_image_generator.flow_from_directory(directory=TRAIN_DIR,
+train_data_gen = train_image_generator.flow_from_dataframe(directory=TRAIN_DIR,
                                                            dataframe=traindf,
                                                            x_col="frame",
                                                            y_col="score",
@@ -57,10 +57,11 @@ train_data_gen = train_image_generator.flow_from_directory(directory=TRAIN_DIR,
                                                            target_size=(TARGET_SHAPE, TARGET_SHAPE),
                                                            class_mode='other')
 
-val_data_gen = val_image_generator.flow_from_directory(directory=TEST_DIR,
+val_data_gen = val_image_generator.flow_from_dataframe(directory=TEST_DIR,
                                                        dataframe=testdf,
                                                        x_col="frame",
                                                        y_col="score",
+                                                       subset="validation",
                                                        shuffle=True,  # Best practice: shuffle the training data
                                                        target_size=(TARGET_SHAPE, TARGET_SHAPE),
                                                        class_mode='other')
