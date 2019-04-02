@@ -45,13 +45,14 @@ print(testdf.tail(3))
 
 # Images will be resized to(TARGET_SHAPE, TARGET_SHAPE) as they're read off disk.
 TARGET_SHAPE = 224
-BATCH_SIZE = 5
+BATCH_SIZE = 100
+EPOCHS = 5
 
 train_image_generator = ImageDataGenerator(rescale=1. / 255)
 val_image_generator = ImageDataGenerator(rescale=1. / 255)
 
 train_data_gen = train_image_generator.flow_from_directory(directory=TRAIN_DIR,
-                                                           dataframe=train_label_df,
+                                                           dataframe=traindf,
                                                            x_col="frame",
                                                            y_col="score",
                                                            shuffle=True,  # Best practice: shuffle the training data
@@ -59,7 +60,7 @@ train_data_gen = train_image_generator.flow_from_directory(directory=TRAIN_DIR,
                                                            class_mode='other')
 
 val_data_gen = val_image_generator.flow_from_directory(directory=TEST_DIR,
-                                                       dataframe=test_label_df,
+                                                       dataframe=testdf,
                                                        x_col="frame",
                                                        y_col="score",
                                                        shuffle=True,  # Best practice: shuffle the training data
@@ -80,8 +81,8 @@ model.compile(
 
 history = model.fit_generator(
     train_data_gen,
-    steps_per_epoch=int(np.ceil(233 / float(BATCH_SIZE))),
+    # steps_per_epoch=int(np.ceil(233 / float(BATCH_SIZE))),
     epochs=EPOCHS,
     validation_data=val_data_gen,
-    validation_steps=int(np.ceil(60 / float(BATCH_SIZE)))
+    # validation_steps=int(np.ceil(60 / float(BATCH_SIZE)))
 )
