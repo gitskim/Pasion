@@ -9,16 +9,16 @@ PICTURE_SOURCE_DIR = '/Users/suhyunkim/Downloads/action_quality_dataset/keyframe
 
 # TODO:
 # ANNOTATION_FILE = '/Users/suhyunkim/Downloads/action_quality_dataset/diving/annotations/Diving_-_Men_10_Prel._-_London_2012_Olympic_Game__eEKo5bGe5bU.txt'
-ANNOTATION_FILE = '/Users/suhyunkim/git/Pasion/test_file.txt'
+ANNOTATION_FILE = '/home/ek2993/Pasion/diving_annotations.txt'
 
 # TODO: it's the dir where all the pictures will be moved to. END IT WITH THE SLASH
 KEYFRAME_DIR = '/Users/suhyunkim/Downloads/action_quality_dataset/keyframes_diving/val/'
 
 # TODO: it's the dir where all the pictures will be moved to. END IT WITH THE SLASH
-VAL_DIR = '/Users/suhyunkim/Downloads/action_quality_dataset/val/'
+TEST_DIR = '/home/ek2993/michael/'
 
 # TODO: it's the dir where all the pictures will be moved to. END IT WITH THE SLASH
-TEST_DIR = '/Users/suhyunkim/Downloads/action_quality_dataset/test/'
+TRAIN_DIR = '/home/ek2993/train/'
 
 is_diving = True
 
@@ -158,7 +158,7 @@ def move_train_files_to_test():
                 # print(arr_sub_total_score)
 
 
-def do():
+def train_labels():
     # move the pictures to a certain directory and create labels
     arr_frame = np.array([])
     arr_score = np.array([])
@@ -192,7 +192,7 @@ def do():
                     str_num = "{:0>7d}".format(i)
                     pic_name = "frame" + str_num + ".png"
                     supposed_to_be_counter += 1
-                    if os.path.exists(f"{KEYFRAME_DIR}{pic_name}"):
+                    if os.path.exists(f"{TRAIN_DIR}{pic_name}"):
                         counter += 1
                         arr_frame = np.append(arr_frame, f"{pic_name}")
 
@@ -222,11 +222,89 @@ def do():
     print(dataset_write)
     data_in_csv = dataset_write.to_csv(index=False)
 
-    with open('suhyundata.csv', 'wb') as f:
+    with open('train.csv', 'wb') as f:
         pickle.dump(data_in_csv, f)
 
-    data_read = pd.read_csv('suhyundata.csv', encoding = "ISO-8859-1")
+    data_read = pd.read_csv('train.csv', encoding="ISO-8859-1")
 
     print('data_read')
     print(data_read)
     return dataset_write.equals(data_read)
+
+
+def test_labels():
+    # move the pictures to a certain directory and create labels
+    arr_frame = np.array([])
+    arr_score = np.array([])
+    arr_difficulty = np.array([])
+
+    with open(ANNOTATION_FILE) as filename:
+        counter = 0
+        supposed_to_be_counter = 0
+        for line in filename:
+            print(line)
+            if '#' in line:
+                continue
+            if 'A' in line:
+                print(line)
+                line_arr = line.split()
+                # print(line_arr[0])
+                # print(line_arr[1])
+                start = -1
+                end = -1
+
+                for i in range(0, 2):
+                    if i == 0:
+                        start = line_arr[0]
+                        start = int(start)
+
+                    elif i == 1:
+                        end = line_arr[1]
+                        end = int(end)
+
+                for i in range(start, end + 1):
+                    str_num = "{:0>7d}".format(i)
+                    pic_name = "frame" + str_num + ".png"
+                    supposed_to_be_counter += 1
+                    if os.path.exists(f"{TEST_DIR}{pic_name}"):
+                        counter += 1
+                        arr_frame = np.append(arr_frame, f"{pic_name}")
+
+                    # print(pic_name)
+
+                    # choose the right pictures
+                    # run_command(f"mv {PICTURE_SOURCE_DIR}{pic_name} {KEYFRAME_DIR}")
+
+            if 'Score' in line and is_diving:
+                line_arr = line.split()
+                arr_sub_total_score = np.empty(counter)
+                arr_sub_total_score.fill(line_arr[2])
+
+                arr_sub_difficulty_score = np.empty(counter)
+                arr_sub_difficulty_score.fill(line_arr[3])
+
+                arr_score = np.append(arr_score, arr_sub_total_score)
+                arr_difficulty = np.append(arr_difficulty, arr_sub_difficulty_score)
+                counter = 0
+                # print(arr_sub_total_score)
+
+    stacked_array = np.stack((arr_frame, arr_score, arr_difficulty), axis=-1)
+    dataset_write = pd.DataFrame(
+        {'0': stacked_array[:, 0], '1': stacked_array[:, 1], '2': stacked_array[:, 2]})
+
+    print('data_write')
+    print(dataset_write)
+    data_in_csv = dataset_write.to_csv(index=False)
+
+    with open('test.csv', 'wb') as f:
+        pickle.dump(data_in_csv, f)
+
+    data_read = pd.read_csv('test.csv', encoding="ISO-8859-1")
+
+    print('data_read')
+    print(data_read)
+    return dataset_write.equals(data_read)
+
+
+train_labels()
+test_labels()
