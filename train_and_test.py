@@ -11,8 +11,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import VGG16, MobileNet, MobileNetV2
 
-from keras.layers import Dense, Activation, Flatten, Dropout, BatchNormalization
-from keras import regularizers, optimizers
 import pandas as pd
 import numpy as np
 
@@ -22,8 +20,8 @@ TRAIN_DIR = "/home/ek2993/train"
 # TODO: fill the test dir
 TEST_DIR = "/home/ek2993/michael"
 
-traindf = pd.read_csv('./train.csv', header=0, encoding='unicode_escape')
-testdf = pd.read_csv("./test.csv", header=0, encoding='unicode_escape')
+traindf = pd.read_csv('train.csv', header=0, encoding='unicode_escape')
+testdf = pd.read_csv("test.csv", header=0, encoding='unicode_escape')
 
 print(traindf.head(3))
 print(testdf.head(3))
