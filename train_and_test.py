@@ -1,4 +1,4 @@
-import utils as utils
+import pose_utils as utils
 from keras.models import Sequential
 from keras.layers import Dropout, Flatten, Dense
 from keras import applications
@@ -20,12 +20,12 @@ input_dim = 107
 timeseries = 202
 
 model = Sequential()
-model.add(LSTM(12, dropout=0.2, input_shape=(1, input_dim)))
+model.add(LSTM(12, dropout=0.2, input_shape=(timeseries, input_dim)))
 
 model.add(Dense(1, activation='linear'))
 model.compile(optimizer='adam', loss='mse', metrics=['accuracy'])
 model.summary()
 
-model.fit(arr_frame_flat, arr_score)
+model.fit(np.array(arr_frame_flat), np.array(arr_score), epochs=50)
 
 model.save_weights('sun-4-21-12p.h5')
