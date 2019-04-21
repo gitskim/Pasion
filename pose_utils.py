@@ -39,7 +39,9 @@ def get_pose_labels():
     arr_frame = []
     arr_frame_flat = []
     arr_score = np.array([])
+    arr_score_concat = np.array([])
     arr_difficulty = np.array([])
+    arr_difficulty_concat = np.array([])
 
     with open(ANNOTATION_FILE) as filename:
         max_counter = 202
@@ -92,8 +94,6 @@ def get_pose_labels():
                     max_one_group_counter = one_group_counter
 
                 # len(pose_group): 169; one_group_counter: 169; max_one_group_counter: 202
-                print(f'len(pose_group): {len(pose_group)};  one_group_counter * 202 = {one_group_counter * 202}; one_group_counter: {one_group_counter}; max_one_group_counter: {max_one_group_counter};'
-                      f'group_counter: {group_counter}')
 
                 if one_group_counter < 202:
                     rem_count = 202 - one_group_counter
@@ -117,8 +117,10 @@ def get_pose_labels():
                 arr_difficulty = np.append(arr_difficulty, arr_sub_difficulty_score)
                 # print(arr_sub_total_score)
 
-        print(f'arr_frame_flat: {len(arr_frame_flat)}, arr_frame: {len(arr_frame)}, arr_frame[1]: {len(arr_frame[1])}, arr_score: {len(arr_score)}, arr_difficulty: {len(arr_difficulty)}')
-        print(f'arr_frame_flat: {len(arr_frame_flat)}, arr_score: {len(arr_score)}, arr_difficulty: {len(arr_difficulty)}')
-    return arr_frame_flat, arr_score, arr_difficulty
+                np.append(arr_score_concat, line_arr[2])
+                np.append(arr_difficulty_concat, line_arr[3])
+
+        #print(f'arr_frame_flat: {len(arr_frame_flat)}, arr_score_concat: {len(arr_score_concat)}, arr_difficulty_concat: {len(arr_difficulty_concat)}')
+    return arr_frame_flat, arr_score_concat, arr_difficulty_concat
 
 get_pose_labels()
