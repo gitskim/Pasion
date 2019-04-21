@@ -26,7 +26,7 @@ is_diving = True
 
 def get_pose_labels():
     # move the pictures to a certain directory and create labels
-    contents = sio.loadmat("/Users/suhyunkim/git/Pasion/diving.mat")
+    contents = sio.loadmat(MAT_FILE)
     print(len(contents))
     tracked = contents['boxes_tracked_wholevideo']
     print(tracked)
