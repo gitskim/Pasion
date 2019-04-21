@@ -4,6 +4,7 @@ import os.path
 import pandas as pd
 import pickle
 import scipy.io as sio
+import cloudstorage as gcs
 
 # TODO: end it with the slash
 PICTURE_SOURCE_DIR = '/Users/suhyunkim/Downloads/action_quality_dataset/keyframes/'
@@ -401,11 +402,10 @@ def get_pose_labels():
                 # print(arr_sub_total_score)
 
         print(f'arr_frame_flat: {len(arr_frame_flat)}, arr_frame: {len(arr_frame)}, arr_frame[1]: {len(arr_frame[1])}, arr_score: {len(arr_score)}, arr_difficulty: {len(arr_difficulty)}')
-
+        print(f'arr_frame_flat: {len(arr_frame_flat)}, arr_score: {len(arr_score)}, arr_difficulty: {len(arr_difficulty)}')
     return arr_frame_flat, arr_score, arr_difficulty
 
     # print(f'final: {len(arr_frame)}; group counter: {group_counter}; one_group_counter: {one_group_counter}')
     #stacked_array = np.stack((arr_frame, arr_score, arr_difficulty), axis=-1)
 
-get_pose_labels()
 # test_labels()
