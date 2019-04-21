@@ -5,24 +5,12 @@ import pandas as pd
 import pickle
 import scipy.io as sio
 
-# TODO: end it with the slash
-PICTURE_SOURCE_DIR = '/Users/suhyunkim/Downloads/action_quality_dataset/keyframes/'
-
 # TODO:
-# ANNOTATION_FILE = '/Users/suhyunkim/Downloads/action_quality_dataset/diving/annotations/Diving_-_Men_10_Prel._-_London_2012_Olympic_Game__eEKo5bGe5bU.txt'
 ANNOTATION_FILE = '/home/suhyunkim011/Pasion/Diving.txt'
-
-# TODO: it's the dir where all the pictures will be moved to. END IT WITH THE SLASH
-KEYFRAME_DIR = '/Users/suhyunkim/Downloads/action_quality_dataset/keyframes_diving/val/'
-
-# TODO: it's the dir where all the pictures will be moved to. END IT WITH THE SLASH
-TEST_DIR = '/home/ek2993/michael/'
-
-# TODO: it's the dir where all the pictures will be moved to. END IT WITH THE SLASH
-TRAIN_DIR = '/home/ek2993/train/'
+#ANNOTATION_FILE = '/Users/suhyunkim/Downloads/action_quality_dataset/diving/annotations/Diving.txt'
 
 MAT_FILE = '/home/suhyunkim011/Pasion/diving.mat'
-is_diving = True
+#MAT_FILE = '/Users/suhyunkim/git/Pasion/diving.mat'
 
 def get_pose_labels():
     # move the pictures to a certain directory and create labels
@@ -39,9 +27,9 @@ def get_pose_labels():
     arr_frame = []
     arr_frame_flat = []
     arr_score = np.array([])
-    arr_score_concat = np.array([])
+    arr_score_flat = []
     arr_difficulty = np.array([])
-    arr_difficulty_concat = np.array([])
+    arr_difficulty_flat = []
 
     with open(ANNOTATION_FILE) as filename:
         max_counter = 202
@@ -72,7 +60,6 @@ def get_pose_labels():
                         end = line_arr[1]
                         end = int(end)
 
-
                 start = start - 1
 
                 pose_group = []
@@ -89,7 +76,6 @@ def get_pose_labels():
                     # choose the right pictures
                     # run_command(f"mv {PICTURE_SOURCE_DIR}{pic_name} {KEYFRAME_DIR}")
 
-
                 if one_group_counter > max_one_group_counter:
                     max_one_group_counter = one_group_counter
 
@@ -101,8 +87,8 @@ def get_pose_labels():
                         pose_group.append(np.zeros(107))
                         arr_frame_flat.append(tracked[i])
 
-
-                arr_frame.append(pose_group) #figure out why it worked when I put it above the if one_group_counter > max_one_group_counter:
+                arr_frame.append(
+                    pose_group)  # figure out why it worked when I put it above the if one_group_counter > max_one_group_counter:
                 one_group_counter = 0
 
             if 'Score' in line:
@@ -117,10 +103,10 @@ def get_pose_labels():
                 arr_difficulty = np.append(arr_difficulty, arr_sub_difficulty_score)
                 # print(arr_sub_total_score)
 
-                np.append(arr_score_concat, line_arr[2])
-                np.append(arr_difficulty_concat, line_arr[3])
+                arr_score_flat.append(line_arr[2])
+                arr_difficulty_flat.append(line_arr[3])
 
-        #print(f'arr_frame_flat: {len(arr_frame_flat)}, arr_score_concat: {len(arr_score_concat)}, arr_difficulty_concat: {len(arr_difficulty_concat)}')
-    return arr_frame_flat, arr_score_concat, arr_difficulty_concat
+        #print(f'arr_frame: {len(arr_frame)}, arr_score_flat: {len(arr_score_flat)}, arr_difficulty_concat: {len(arr_difficulty_flat)}')
+    return arr_frame, arr_score_flat, arr_difficulty_flat
 
-get_pose_labels()
+# get_pose_labels()
