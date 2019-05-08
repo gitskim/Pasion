@@ -1,7 +1,6 @@
 import subprocess
 import numpy as np
 import os.path
-import pandas as pd
 import pickle
 import scipy.io as sio
 
