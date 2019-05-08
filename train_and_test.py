@@ -27,7 +27,7 @@ model.add(Dense(1, activation='linear'))
 model.compile(optimizer='adam', loss='mse', metrics=['mse','mae'])
 model.summary()
 
-model.fit(np.array(arr_frame_flat), np.array(arr_score), epochs=50)
+model.fit(arr_frames, np.array(arr_score), epochs=50, validation_split=0.15)
 
-model.save_weights('sun-4-21-12p.h5')
+model.save_weights('wed-5-8-3p.h5')
 
