@@ -1,13 +1,13 @@
 import pose_utils as utils
-from keras.models import Sequential
-from keras.layers import Dropout, Flatten, Dense
-from keras import applications
-from keras.optimizers import SGD
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dropout, Flatten, Dense
+from tensorflow.keras import applications
+from tensorflow.keras.optimizers import SGD
 from sklearn.utils import shuffle
-from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import EarlyStopping, ModelCheckpoint
-from keras.applications.vgg16 import VGG16
-from keras.layers import LSTM
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras.applications.vgg16 import VGG16
+from tensorflow.keras.layers import LSTM
 import numpy as np
 import glob, os
 from scipy.misc import imread, imresize
