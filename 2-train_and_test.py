@@ -21,13 +21,12 @@ timeseries = 202
 input_dim = 104
 
 model = Sequential()
-model.add(LSTM(12, dropout=0.2, input_shape=(timeseries, input_dim)))
-
+model.add(LSTM(128, dropout=0.2, input_shape=(timeseries, input_dim)))
 model.add(Dense(1, activation='linear'))
-model.compile(optimizer='adam', loss='mse', metrics=['mse','mae'])
+model.compile(optimizer='adam', loss='mae', metrics=['mse','mae'])
 model.summary()
 
-model.fit(arr_frames, np.array(arr_score), epochs=50, validation_split=0.15)
+model.fit(arr_frames, np.array(arr_score), epochs=100, validation_split=0.2)
 
-model.save_weights('wed-5-8-3p.h5')
+model.save_weights('mae-wed-5-8-9-16p.h5')
 
