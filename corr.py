@@ -45,6 +45,14 @@ def correlation_coefficient_loss(y_true, y_pred):
 
 
 model = Sequential()
+model.add(LSTM(512, dropout=0.2, input_shape=(timeseries, input_dim)))
+model.add(Dense(1, activation='linear'))
+model.compile(optimizer='adam', loss=correlation_coefficient_loss, metrics=[correlation_coefficient_loss])
+model.summary()
+history = model.fit(arr_frames, np.array(arr_score), epochs=300, validation_split=0.2, shuffle=True)
+
+
+model = Sequential()
 model.add(Bidirectional(LSTM(512, dropout=0.2, return_sequences=True), input_shape=(timeseries, input_dim)))
 model.add(Bidirectional(LSTM(128, dropout=0.2)))
 model.add(Dense(1))
