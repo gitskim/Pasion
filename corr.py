@@ -1,20 +1,20 @@
 import pose_utils as utils
-from keras.models import Sequential
-from keras.layers import Dropout, Flatten, Dense
-from keras import applications
-from keras.optimizers import SGD
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers import Dropout, Flatten, Dense
+from tensorflow.python.keras import applications
+from tensorflow.python.keras.optimizers import SGD
 from sklearn.utils import shuffle
-from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import EarlyStopping, ModelCheckpoint
-from keras.applications.vgg16 import VGG16
-from keras.layers import LSTM, Bidirectional
+from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.python.keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.python.keras.applications.vgg16 import VGG16
+from tensorflow.python.keras.layers import LSTM, Bidirectional
 import numpy as np
 import glob, os
 from scipy.misc import imread, imresize
 import tensorflow as tf
 import pickle
 import pandas as pd
-import keras.backend as K
+import tensorflow.python.keras.backend as K
 
 arr_frames, arr_score, arr_difficulty = utils.get_pose_labels2()
 print(arr_frames.shape)
@@ -58,7 +58,7 @@ for epoch in range(1):
 
         reconstructed = model(arr_frames)
 
-        print(f'reconstruct: {reconstructed}')
+        #print(f'reconstruct: {reconstructed}')
         # Compute reconstruction loss
         loss = correlation_coefficient_loss(np.array(arr_score, dtype=np.float32), reconstructed)
         # print(f'y: {y.type}, reconstructed: {reconstructed.type}')
