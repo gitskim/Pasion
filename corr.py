@@ -18,18 +18,22 @@ import keras.backend as K
 
 arr_frames, arr_score, arr_difficulty = utils.get_pose_labels2()
 print(arr_frames.shape)
+arr_frames = arr_frames.astype('float32')
 
 # (298387, 104)
 timeseries = 202
 input_dim = 104
+
+optimizer = tf.keras.optimizers.Adam()
+loss_metric = tf.keras.metrics.Mean()
 
 def correlation_coefficient_loss(y_true, y_pred):
     x = y_true
     y = y_pred
     mx = K.mean(x)
     my = K.mean(y)
-    xm, ym = x-mx, y-my
-    r_num = K.sum(tf.multiply(xm,ym))
+    xm, ym = x - mx, y - my
+    r_num = K.sum(tf.multiply(xm, ym))
     r_den = K.sqrt(tf.multiply(K.sum(K.square(xm)), K.sum(K.square(ym))))
     r = r_num / r_den
 
@@ -44,10 +48,29 @@ model.add(Dense(1, activation='linear'))
 model.compile(optimizer='adam', loss=correlation_coefficient_loss, metrics=[correlation_coefficient_loss])
 model.summary()
 
-history = model.fit(len(arr_frames), np.array(arr_score), epochs=300, validation_split=0.2, shuffle=True)
-hist_df = pd.DataFrame(history.history)
+for epoch in range(1):
+    print('Start of epoch %d' % (epoch,))
 
-with open('model4-5-14-cc.json', 'w') as f:
-    hist_df.to_json(f)
+    # Iterate over the batches of the dataset.
+    # for step, x_batch_train in enumerate(train_dataset):
+    with tf.GradientTape() as tape:
+        print('inside gradient tape')
 
+        reconstructed = model(arr_frames)
 
+        print(f'reconstruct: {reconstructed}')
+        # Compute reconstruction loss
+        loss = correlation_coefficient_loss(np.array(arr_score, dtype=np.float32), reconstructed)
+        # print(f'y: {y.type}, reconstructed: {reconstructed.type}')
+        loss += sum(model.losses)  # Add KLD regularization loss
+
+    grads = tape.gradient(loss, model.trainable_weights)
+    optimizer.apply_gradients(zip(grads, model.trainable_weights))
+
+    result = loss_metric(loss)
+
+    # if step % 100 == 0:
+    # print('step %s: mean loss = %s' % (step, loss_metric.result()))
+    # run the graph
+
+    print('mean loss = %s' % (loss_metric.result()))
