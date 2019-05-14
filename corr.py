@@ -1,20 +1,20 @@
 import pose_utils as utils
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dropout, Flatten, Dense
-from tensorflow.python.keras import applications
-from tensorflow.python.keras.optimizers import SGD
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dropout, Flatten, Dense
+from tensorflow.keras import applications
+from tensorflow.keras.optimizers import SGD
 from sklearn.utils import shuffle
-from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.python.keras.callbacks import EarlyStopping, ModelCheckpoint
-from tensorflow.python.keras.applications.vgg16 import VGG16
-from tensorflow.python.keras.layers import LSTM, Bidirectional
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras.applications.vgg16 import VGG16
+from tensorflow.keras.layers import LSTM, Bidirectional
 import numpy as np
 import glob, os
 from scipy.misc import imread, imresize
 import tensorflow as tf
 import pickle
 import pandas as pd
-import tensorflow.python.keras.backend as K
+import tensorflow.keras.backend as K
 
 arr_frames, arr_score, arr_difficulty = utils.get_pose_labels2()
 print(arr_frames.shape)
