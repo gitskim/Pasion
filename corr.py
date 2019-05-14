@@ -28,40 +28,39 @@ optimizer = tf.keras.optimizers.Adam()
 loss_metric = tf.keras.metrics.Mean()
 
 def correlation_coefficient_loss(y_true, y_pred):
-    print('correlation rank')
     #print(f'suhyun true: {y_true.type}, pred: {y_pred.type}')
     x = tf.convert_to_tensor(y_true, dtype=tf.float32)
     y = y_pred
-    print('mean')
+
     mx = K.mean(x)
     my = K.mean(y)
     xm, ym = x-mx, y-my
-    print('multiply')
     r_num = K.sum(tf.multiply(xm,ym))
-    print('sqrt')
     r_den = K.sqrt(tf.multiply(K.sum(K.square(xm)), K.sum(K.square(ym))))
     r = r_num / r_den
 
     r = K.maximum(K.minimum(r, 1.0), -1.0)
-    print('correlation rank over')
+    r = K.print_tensor(r, message='suhyun --- corr rank r = ')
     return 1 - K.square(r)
 
 
 model = Sequential()
 model.add(Bidirectional(LSTM(512, dropout=0.2, return_sequences=True), input_shape=(timeseries, input_dim)))
 model.add(Bidirectional(LSTM(128, dropout=0.2)))
-model.add(Dense(1, activation='linear'))
+model.add(Dense(1))
 model.compile(optimizer='adam', loss=correlation_coefficient_loss, metrics=[correlation_coefficient_loss])
 model.summary()
 
-for epoch in range(1):
+for epoch in range(300):
     print('Start of epoch %d' % (epoch,))
 
     # Iterate over the batches of the dataset.
     # for step, x_batch_train in enumerate(train_dataset):
     with tf.GradientTape() as tape:
         print('inside gradient tape')
-
+        print('arr_frames shape:')
+        np.random.shuffle(arr_frames)
+        print(arr_frames.shape)
         reconstructed = model(arr_frames)
 
         #print(f'reconstruct: {reconstructed}')
