@@ -1,7 +1,9 @@
 import json
 
-with open('model1-5-14-mse.json') as f:
-    f['val_mean_absolute_error']
-    #json.load(f)
-    #print(f['val_acc'])
+file = '/Users/suhyunkim/git/Pasion/json/model1-5-14-mse.json'
 
+with open(file, 'r') as f:
+    json_obj = json.load(f)
+    for obj in json_obj:
+        # print(obj) #key
+        print(json_obj['val_dsc'])  # val
