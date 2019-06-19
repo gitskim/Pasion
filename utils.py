@@ -408,4 +408,10 @@ def get_pose_labels():
     # print(f'final: {len(arr_frame)}; group counter: {group_counter}; one_group_counter: {one_group_counter}')
     #stacked_array = np.stack((arr_frame, arr_score, arr_difficulty), axis=-1)
 
-# test_labels()
+
+def get_weights_and_models():
+    run_command(f"wget http://posefs1.perception.cs.cmu.edu/Users/tsimon/Projects/coco/data/models/mpi/pose_iter_160000.caffemodel")
+    run_command(f"wget https://raw.githubusercontent.com/CMU-Perceptual-Computing-Lab/openpose/master/models/pose/mpi/pose_deploy_linevec_faster_4_stages.prototxt")
+
+
+get_weights_and_models()
