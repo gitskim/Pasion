@@ -33,8 +33,7 @@ def get_pose_labels2():
     with open(ANNOTATION_FILE) as filename:
         max_counter = 202
         group_counter = 0
-        one_group_counter = 0
-        max_one_group_counter = 0
+        one_group_counter = 202
         supposed_to_be_counter = 0
         for line in filename:
             print(line)
@@ -69,9 +68,9 @@ def get_pose_labels2():
                     pose_group[one_group_counter, :] = converted
                     one_group_counter += 1
 
-                if one_group_counter > max_one_group_counter:
-                    max_one_group_counter = one_group_counter
-                    print("-------------*********-----------------WARNING-------------*********-----------------")
+                if one_group_counter > max_counter:
+                    max_counter = one_group_counter
+                    print("-------------*********-----------------WARNING: Max counter changed: %d-------------*********", max_counter)
                 # len(pose_group): 169; one_group_counter: 169; max_one_group_counter: 202
 
                 # print(pose_group)
@@ -99,3 +98,4 @@ def get_pose_labels2():
         print(np.array(arr_frame).shape)
     return np.array(arr_frame), arr_score_flat, arr_difficulty_flat
 
+get_pose_labels2()
