@@ -4,7 +4,6 @@ import os.path
 import pandas as pd
 import pickle
 import scipy.io as sio
-import cloudstorage as gcs
 
 # TODO: end it with the slash
 PICTURE_SOURCE_DIR = '/Users/suhyunkim/Downloads/action_quality_dataset/keyframes/'
