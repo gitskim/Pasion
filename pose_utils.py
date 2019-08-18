@@ -5,11 +5,12 @@ import pickle
 import scipy.io as sio
 
 # TODO:
-#ANNOTATION_FILE = '/home/suhyunkim011/Pasion/Diving.txt'
+# ANNOTATION_FILE = '/home/suhyunkim011/Pasion/Diving.txt'
 ANNOTATION_FILE = 'Diving.txt'
 
-#MAT_FILE = '/home/suhyunkim011/Pasion/diving.mat'
+# MAT_FILE = '/home/suhyunkim011/Pasion/diving.mat'
 MAT_FILE = 'diving.mat'
+
 
 def get_pose_labels2():
     # move the pictures to a certain directory and create labels
@@ -70,32 +71,35 @@ def get_pose_labels2():
 
                 if one_group_counter > max_counter:
                     max_counter = one_group_counter
-                    print("-------------*********-----------------WARNING: Max counter changed: %d-------------*********", max_counter)
+                    print("-------------*********---------WARNING: Max counter changed: %d-------------*********",
+                          max_counter)
                 # len(pose_group): 169; one_group_counter: 169; max_one_group_counter: 202
 
                 # print(pose_group)
-                arr_frame.append(pose_group)  # figure out why it worked when I put it above the if one_group_counter > max_one_group_counter:
+                arr_frame.append(
+                    pose_group)  # figure out why it worked when I put it above the if one_group_counter > max_one_group_counter:
                 one_group_counter = 0
 
             if 'Score' in line:
                 line_arr = line.split()
                 arr_sub_total_score = np.empty(max_counter)
-                arr_sub_total_score.fill(line_arr[2])
+                arr_sub_total_score.fill(float(line_arr[2]))
 
                 arr_sub_difficulty_score = np.empty(max_counter)
-                arr_sub_difficulty_score.fill(line_arr[3])
+                arr_sub_difficulty_score.fill(float(line_arr[3]))
 
                 arr_score = np.append(arr_score, arr_sub_total_score)
                 arr_difficulty = np.append(arr_difficulty, arr_sub_difficulty_score)
                 # print(arr_sub_total_score)
 
-                arr_score_flat.append(line_arr[2])
-                arr_difficulty_flat.append(line_arr[3])
+                arr_score_flat.append(float(line_arr[2]))
+                arr_difficulty_flat.append(float(line_arr[3]))
 
         # print(f'arr_frame: {len(arr_frame)}, arr_score_flat: {len(arr_score_flat)}, arr_difficulty_concat: {len(arr_difficulty_flat)}')
         # print(f'arr_frame: {len(arr_frame)}')
         # print(arr_frame[71])
         print(np.array(arr_frame).shape)
     return np.array(arr_frame), arr_score_flat, arr_difficulty_flat
+
 
 get_pose_labels2()
