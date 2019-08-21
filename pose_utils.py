@@ -34,7 +34,7 @@ def get_pose_labels2():
     with open(ANNOTATION_FILE) as filename:
         max_counter = 202
         group_counter = 0
-        one_group_counter = 202
+        one_group_counter = 0
         supposed_to_be_counter = 0
         for line in filename:
             print(line)
