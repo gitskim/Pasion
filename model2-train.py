@@ -46,7 +46,7 @@ model.summary()
 history = model.fit(arr_frames, np.array(arr_score), epochs=300, validation_split=0.2, shuffle=True)
 hist_df = pd.DataFrame(history.history)
 
-with open('model2-5-14-mse.json', 'w') as f:
+with open('model2-mse.json', 'w') as f:
         hist_df.to_json(f)
 
 
